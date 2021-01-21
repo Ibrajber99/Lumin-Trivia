@@ -1,0 +1,78 @@
+﻿@model Trivia_API_Testing.ViewModel.QuestionsFilterViewModel
+@using Trivia_API_Testing.Models
+
+@{
+    ViewBag.Title = "GetCatagories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<h1>Welcome to Lumin Trivia</h1>
+<div class="row">
+    @using (Html.BeginForm("GetQuestions", "Trivia"))
+    {
+
+    <div class="card">
+        <div class="col-lg-12">
+            <div class="card-body">
+
+                <div class="form-group">
+                    @Html.EditorFor(model => model.QuestionFilter.NumOfQuestions, "Questions amount", new
+                    {
+                        htmlAttributes = new
+                   { @class = "form-control", placeHolder = "Number of questions", min = 1, max = 30 }
+                    })
+                    @Html.ValidationMessageFor(model => model.QuestionFilter.NumOfQuestions, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.QuestionFilter.Difficulty,
+                    new SelectList(Enum.GetValues(typeof(QuestionDifficulty))), "Select Difficulty", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.QuestionFilter.Difficulty, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.QuestionFilter.Type,
+                    new SelectList(Enum.GetValues(typeof(QuestionType))), "Select Type", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.QuestionFilter.Type, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.QuestionFilter.CategoryId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.QuestionFilter.CategoryId,
+                    new SelectList(Model.Catagories.CategoriesList, "CategoryID", "Name"), "Select a Category", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.QuestionFilter.Type, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Get Questions" class="btn btn-outline-warning" />
+                </div>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    }
+</div>
+<br />
+<br />
+
+<hr />
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    .card {
+        margin-bottom: 20px;
+        background-color: darkslategrey;
+    }
+
+    h1 {
+        color: crimson;
+    }
+</style>

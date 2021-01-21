@@ -1,0 +1,76 @@
+﻿@model Trivia_API_Testing.ViewModel.TriviaChallengeViewModel
+@using Trivia_API_Testing.Models
+
+@{
+    ViewBag.Title = "GetQuestions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+<br>
+
+<div class="align-content-lg-center">
+
+    @if (!Model.isSessionFinished)
+    {
+        <div id="bgImage">
+            <div class="input-container">
+                <p class="text-danger">Difficulty: @Model.questionsManager.Questions.ElementAt(Model.currentQuestion).Difficulty</p>
+                <p class="text-warning"> Category: @Model.questionsManager.Questions.ElementAt(Model.currentQuestion).Category</p>
+                <h3>@Model.questionsManager.Questions.ElementAt(Model.currentQuestion).Question</h3>
+
+                @using (Html.BeginForm("GetAnswer", "Trivia"))
+                {
+                    foreach (string possibleAnswer in Model.questionsManager.Questions.ElementAt(Model.currentQuestion).PossibleAnswers)
+                    {
+                        <label class="btn btn-primary" style="padding:20px 20px">
+                            <input type="radio" name="answer" required value="@possibleAnswer" />
+                            @possibleAnswer
+                        </label>
+                        <br />
+                    }
+                    <br />
+                    <br />
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="col-12">
+                            <input type="submit" value="Next" class="btn btn-info" />
+                        </div>
+                    </div>
+                    <hr />
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <h4 class="text-success">End of Questions</h4>
+        <h3>You have Answered @Model.Score out of @Model.questionsManager.Questions.Count</h3>
+        <div>
+            @Html.ActionLink("Back", "GetCatagories")
+        </div>
+    }
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    #bgImage {
+        width: 100%;
+        background-image: url("https://www.savannahstate.edu/content/mediakitfiles/game-show-lights-stage-stock-small.jpeg");
+    }
+
+    .input-container {
+        padding: 10px;
+        text-align: center;
+        color: firebrick;
+        font-weight: bolder;
+        font-size: xx-large;
+    }
+</style>
+
+

@@ -11,8 +11,6 @@ so the user can interact with this data.
 
 The API for retriving the Trivia questions can be reached at this URL: https://opentdb.com/api_config.php
 
-## You can also check the website under this link: https://lumintrivia.azurewebsites.net/
-
 ENJOY
 
 
